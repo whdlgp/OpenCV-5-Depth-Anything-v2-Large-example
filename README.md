@@ -17,6 +17,28 @@ To build and run this example, you need the following library and ONNX file.
 ## How to build
 This project uses CMake for configuration. Follow the steps below.
 
+## Note for Windows and ONNX Runtime users
+Windows has a Well-known ONNX Runtime dll problem.  
+If it doesn't work, check your DLL Load sequence. You can see like this,  
+```
+'opencv5_onnx_test.exe'(Win32): 'C:\Windows\System32\onnxruntime.dll'을(를) 로드했습니다. 포함/제외 설정으로 기호 로드가 비활성화되었습니다.
+or
+'opencv5_onnx_test.exe'(Win32): Loaded 'C:\Windows\System32\onnxruntime.dll'.
+
+```
+### Why?
+* Windows has a very old onnxruntime.dll in the System32 and 'SysWOW64' directories by default
+* your application loads this outdated file
+* Microsoft just leaves this issue unresolved.
+
+### Solution?
+* Copy downloaded onnxruntime.dll files in '(OpenCV 5.0 Dir)\build\3rdparty\onnxruntime\onnxruntime-win-x64-gpu-1.25.1\lib'   
+  to your application's *.exe file location.
+* Delete old onnxruntime.dll in 'System32' also 'SysWOW64'.
+  * But It's hard because it's system file.
+
+This is a very old Microsoft problem. I don't know why they just leave this shit unresolved.
+
 ### Directory Structure Setup
 1. Use CMake. 
 2. Ensure your project directory is structured as follows
