@@ -5,6 +5,7 @@ An example inference of Depth Anything v2 with OpenCV 5 DNN module.
 To build and run this example, you need the following library and ONNX file.
 
 1. OpenCV 5.x
+   - Use 5.x Branch.
    - Need to build yourself (Official pre-build version not tested).
    - To use ONNX Runtime backend('cv::dnn::ENGINE_ORT')
      - Enable 'WITH_ONNXRUNTIME' CMake flag.
@@ -17,7 +18,13 @@ To build and run this example, you need the following library and ONNX file.
 ## How to build
 This project uses CMake for configuration. Follow the steps below.
 
-## Note for Windows and ONNX Runtime users
+### Note for Windows and ONNX Runtime users
+To fix below issue, CMakeLists.txt has been modified.
+* Place executable and all required OpenCV DLLs into output('test') directory.
+
+<details>
+<summary><b>Click to expand: ONNX Runtime DLL Issue(Old system32 files)</b></summary>
+
 Windows has a Well-known ONNX Runtime dll problem.  
 If it doesn't work, check your DLL Load sequence. You can see like this,  
 ```
@@ -26,18 +33,20 @@ or
 'opencv5_onnx_test.exe'(Win32): Loaded 'C:\Windows\System32\onnxruntime.dll'.
 
 ```
-### Why?
+#### Why?
 * Windows has a very old onnxruntime.dll in the System32 and 'SysWOW64' directories by default
 * your application loads this outdated file
 * Microsoft just leaves this issue unresolved.
 
-### Solution?
+#### Solution?
 * Copy downloaded onnxruntime.dll files in '(OpenCV 5.0 Dir)\build\3rdparty\onnxruntime\onnxruntime-win-x64-gpu-1.25.1\lib'   
   to your application's *.exe file location.
 * Delete old onnxruntime.dll in 'System32' also 'SysWOW64'.
   * But It's hard because it's system file.
 
 This is a very old Microsoft problem. I don't know why they just leave this shit unresolved.
+
+</details>
 
 ### Directory Structure Setup
 1. Use CMake. 
