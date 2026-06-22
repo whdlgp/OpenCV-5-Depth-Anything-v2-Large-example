@@ -9,11 +9,27 @@ To build and run this example, you need the following library and ONNX file.
    - Need to build yourself (Official pre-build version not tested).
    - To use ONNX Runtime backend('cv::dnn::ENGINE_ORT')
      - Enable 'WITH_ONNXRUNTIME' CMake flag.
-     - Optionally, enable 'DOWNLOAD_ONNXRUNTIME_GPU' to use GPU (No need to install CUDA).
+     - Optionally, enable 'DOWNLOAD_ONNXRUNTIME_GPU' to use GPU (Need CUDA).
+        - Check the CUDA version compatible with the ONNX runtime [Here](https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements).
 2. ONNX File
    - Download converted ONNX file from [Here](https://huggingface.co/onnx-community/depth-anything-v2-large).
      - 'onnx/model.onnx' in 'Files and versions'.
      - Quantized models (e.g., FP16/INT8) may not work properly.
+
+### Quantized model capability test result
+
+| Model \ ENGINE | ENGINE_NEW | ENGINE_ORT |
+| --- | --- | --- |
+| model (fp32) | O | O |
+| model_bnb4 | X | O |
+| model_fp16 | X | X |
+| model_int8 | X | O |
+| model_q4 | X | O |
+| model_q4f16 | X | X |
+| model_quantized | X | O |
+| model_uint8 | X | O |
+
+* FP16 model need to be tested to another device. My laptop not support FP16 :(
 
 ## How to build
 This project uses CMake for configuration. Follow the steps below.
